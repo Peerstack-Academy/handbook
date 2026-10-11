@@ -4,12 +4,20 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const connectionString = process.env.DATABASE_URL || `postgresql://${process.env.DB_USER || 'postgres'}:${process.env.DB_PASSWORD || 'postgres'}@${process.env.DB_HOST || 'localhost'}:${process.env.DB_PORT || '5432'}/${process.env.DB_NAME || 'handbook_db'}`;
+const dbPassword = process.env.DB_PASSWORD ?? process.env.POSTGRES_PASSWORD ?? '';
 
-export const pool = new Pool({
-  connectionString,
-  connectionTimeoutMillis: 5000,
-});
+export const pool = new Pool(
+  process.env.DATABASE_URL
+    ? { connectionString: process.env.DATABASE_URL, connectionTimeoutMillis: 5000 }
+    : {
+        host: process.env.DB_HOST || 'postgres',
+        port: parseInt(process.env.DB_PORT || '5432', 10),
+        user: process.env.DB_USER || process.env.POSTGRES_USER || 'postgres',
+        password: String(dbPassword),
+        database: process.env.DB_NAME || process.env.POSTGRES_DB || 'handbook_db',
+        connectionTimeoutMillis: 5000,
+      }
+);
 
 export let isPgConnected = false;
 
