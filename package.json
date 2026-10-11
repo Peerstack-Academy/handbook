@@ -1,0 +1,13 @@
+{
+  "name": "handbook-for-students",
+  "version": "1.0.0",
+  "description": "Student Handbook & Staff Admin Panel for Peerstack Academy",
+  "private": true,
+  "scripts": {
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "install:all": "npm --prefix backend install && npm --prefix frontend install",
+    "build:backend": "cd backend && npm run build",
+    "build:frontend": "cd frontend && npm run build"
+  }
+}
